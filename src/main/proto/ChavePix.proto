@@ -1,0 +1,106 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.zup";
+option java_outer_classname = "CadastrarChavePix";
+
+package br.com.zup;
+
+service RegistrarChaveService {
+  rpc registrarChave (RegistrarChaveRequest) returns (RegistroChaveResponse) {}
+}
+
+service DeletarChaveService {
+  rpc deletarChave (DeletarChaveRequest) returns (DeletarChaveResponse) {}
+}
+
+service BuscarChavePix {
+  rpc buscarUmaChavePix (BuscarChavePixRequest) returns (BuscarChavePixResponse) {}
+}
+
+service BuscarListaDeChavePix {
+  rpc buscarListaDeChave (BuscarListaChaveRequest) returns (BuscarListaChaveRequestResponse) {}
+}
+
+message BuscarListaChaveRequest {
+  string codigoInternoCliente = 1;
+}
+
+message BuscarListaChaveRequestResponse {
+  message ChavePix{
+    string pixId =1;
+    string identificadorCliente = 2;
+    string tipoDaChave = 3;
+    string valorDaChave = 4;
+    string tipoDeConta= 5;
+    string createdAt = 6;
+  }
+
+  string clienteId= 1;
+  repeated ChavePix listaChave = 2;
+
+}
+
+message BuscarChavePixRequest {
+  message PixBuscar {
+
+    string pixId = 1;
+    string identificadorCliente = 2;
+  }
+
+
+  oneof filtro  {
+
+    PixBuscar buscarChave = 1;
+    string chavePix = 2;
+
+  }
+
+}
+
+
+message BuscarChavePixResponse {
+
+  string tipoDaChave = 1;
+  string valorDaChave = 2;
+  string nome = 3;
+  string cpf = 4;
+  string nomeBanco = 5;
+  string agencia = 6;
+  string numeroConta = 7;
+  string tipoDaConta = 8;
+  string createdAt = 9;
+
+}
+
+enum TipoDeConta {
+  CONTA_CORRENTE = 0;
+  CONTA_POUPANCA = 1;
+}
+
+message RegistrarChaveRequest {
+
+  string idCliente = 1;
+  string tipoChave = 2;
+  string valorChave = 3;
+  string tipoConta = 4;
+
+}
+
+message RegistroChaveResponse {
+  string pixId = 1;
+  string chave = 2;
+  string tipoChave = 3;
+
+}
+
+message DeletarChaveRequest {
+  string valorDaChave = 1;
+  string identificadorCliente = 2;
+  string tipoChave = 3;
+  string participant = 4;
+}
+message DeletarChaveResponse {
+  string chave = 1;
+  string participant = 2;
+}
